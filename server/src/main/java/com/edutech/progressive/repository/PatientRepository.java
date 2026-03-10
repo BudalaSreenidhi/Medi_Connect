@@ -1,11 +1,17 @@
 package com.edutech.progressive.repository;
 
+import com.edutech.progressive.entity.Patient;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-import org.springframework.data.jpa.repository.JpaRepository;
-import com.edutech.progressive.entity.Patient;
 
+@Repository
 public interface PatientRepository extends JpaRepository<Patient, Integer> {
-    Optional<Patient> findByEmail(String email);   // <-- used above
-    Patient findByPatientId(int patientId);        // if you already had this
+
+    // Day 9 & Day 13: used to enforce unique email for Patient
+    Optional<Patient> findByEmail(String email);
+
+    // If you already reference this elsewhere, keep it; otherwise Optional<> is a safer return
+    Patient findByPatientId(int patientId);
 }
