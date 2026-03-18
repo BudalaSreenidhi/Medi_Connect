@@ -1,49 +1,82 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MediConnectService } from '../../services/mediconnect.service';
+import { Clinic } from '../../models/Clinic';
+import { Patient } from '../../models/Patient';
+import { Appointment } from '../../models/Appointment';
+import { HttpErrorResponse } from '@angular/common/http';
  
 @Component({
-    selector: 'app-appointment',
-    templateUrl: './appointment.component.html',
-    styleUrls: ['./appointment.component.scss']
+  selector: 'app-appointment-create',
+  templateUrl: './appointment.component.html',
+  styleUrls: ['./appointment.component.scss']
 })
 export class AppointmentCreateComponent implements OnInit {
-    appointmentForm!: FormGroup;
-    successMessage: string | null = null;
-    errorMessage: string | null = null;
  
-    constructor(private formBuilder: FormBuilder) { }
+  appointmentForm!: FormGroup;
+  clinics: Clinic[] = [];
+  selectedPatient!: Patient;
  
-    ngOnInit(): void {
-        this.appointmentForm = this.formBuilder.group({
-            appointmentId: [null, [Validators.required, Validators.min(1)]],
-            patientId: [null, [Validators.required, Validators.min(1)]],
-            clinicId: [null, [Validators.required, Validators.min(1)]],
-            appointmentDate: ['', [Validators.required]],
-            status: ['', [Validators.required]],
-            purpose: ['', [Validators.required, Validators.minLength(5)]]
-        });
+  patientId!: number;
+ 
+  successMessage: string | null = null;
+  errorMessage: string | null = null;
+ 
+  constructor(
+    private formBuilder: FormBuilder,
+    private mediConnectService: MediConnectService
+  ) {}
+ 
+  ngOnInit(): void {
+    if (!this.patientId) this.patientId = 1;
+ 
+    this.appointmentForm = this.formBuilder.group({
+      clinicId: ['', Validators.required],
+      appointmentDate: ['', Validators.required],
+      status: ['', Validators.required],
+      purpose: ['', [Validators.required, Validators.minLength(5)]]
+    });
+ 
+    this.mediConnectService.getPatientById(this.patientId).subscribe({
+      next: (p) => (this.selectedPatient = p)
+    });
+ 
+    this.mediConnectService.getAllClinics().subscribe({
+      next: (c) => (this.clinics = c)
+    });
+  }
+ 
+  onSubmit(): void {
+    if (this.appointmentForm.invalid) {
+      this.errorMessage = 'Form is invalid.';
+      this.successMessage = null;
+      return;
     }
  
-    onSubmit(): void {
-        if (this.appointmentForm.valid) {
-            this.successMessage = 'Appointment has been successfully created!';
-            this.errorMessage = null;
-            console.log('Appointment Created: ', this.appointmentForm.value);
-            this.resetForm();
-        } else {
-            this.errorMessage = 'Please fill out all required fields correctly.';
-            this.successMessage = null;
-        }
-    }
+    const clinic = this.clinics.find(
+      c => c.clinicId == this.appointmentForm.value.clinicId
+    );
  
-    resetForm(): void {
-        this.appointmentForm.reset({
-            appointmentId: null,
-            patientId: null,
-            clinicId: null,
-            appointmentDate: '',
-            status: '',
-            purpose: ''
-        });
-    }
+    const app: Appointment = {
+      appointmentId: 0,
+      patient: this.selectedPatient,
+      clinic: clinic!,
+      appointmentDate: this.appointmentForm.value.appointmentDate,
+      status: this.appointmentForm.value.status,
+      purpose: this.appointmentForm.value.purpose,
+      logAttributes: undefined
+    };
+ 
+    this.mediConnectService.createAppointment(app).subscribe({
+      next: () => {
+        this.successMessage = 'Appointment created successfully!';
+        this.errorMessage = null;
+      },
+      error: (err: HttpErrorResponse) => {
+        this.errorMessage = 'Failed to create appointment.';
+        this.successMessage = null;
+      }
+    });
+  }
 }
+ 

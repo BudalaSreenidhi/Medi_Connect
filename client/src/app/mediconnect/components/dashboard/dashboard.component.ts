@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MediConnectService } from '../../services/mediconnect.service';
-import { Clinic } from '../../models/Clinic';
+import { Patient } from '../../models/Patient';
 import { Appointment } from '../../models/Appointment';
+import { Clinic } from '../../models/Clinic';
 import { Doctor } from '../../models/Doctor';
+import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
  
 @Component({
@@ -12,47 +14,62 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class DashboardComponent implements OnInit {
  
-  doctorId!: number;
-  doctorDetails: Doctor | undefined;
-  clinics: Clinic[] = [];
-  selectClinicAppointments: Appointment[] = [];
+  patientId!: number;
+  patientDetails: Patient | undefined;
  
-  constructor(private mediConnectService: MediConnectService) {}
+  appointments: Appointment[] = [];
+  clinics: Clinic[] = [];
+  doctors: Doctor[] = [];
+ 
+  constructor(
+    private mediConnectService: MediConnectService,
+    private router: Router
+  ) {}
  
   ngOnInit(): void {
-    if (!this.doctorId) this.doctorId = 1;
-    this.loadDoctorData();
+    if (!this.patientId) this.patientId = 1;   // test overrides this
+    this.loadPatientData();
   }
  
-  loadDoctorData(): void {
-    this.mediConnectService.getDoctorById(this.doctorId).subscribe({
-      next: (doctor) => {
-        this.doctorDetails = doctor;
+  loadPatientData(): void {
+    this.mediConnectService.getPatientById(this.patientId).subscribe({
+      next: (patient) => {
+        this.patientDetails = patient;
       },
       error: () => {
-        this.doctorDetails = undefined;
+        this.patientDetails = undefined;
       }
     });
  
-    this.mediConnectService.getClinicsByDoctorId(this.doctorId).subscribe({
-      next: (clinics) => {
-        this.clinics = clinics;
-      },
-      error: () => {
-        this.clinics = [];
-      }
+    this.mediConnectService.getAppointmentsByPatient(this.patientId).subscribe({
+      next: (apps) => (this.appointments = apps),
+      error: () => (this.appointments = [])
+    });
+ 
+    this.mediConnectService.getAllClinics().subscribe({
+      next: (clinics) => (this.clinics = clinics),
+      error: () => (this.clinics = [])
+    });
+ 
+    this.mediConnectService.getAllDoctors().subscribe({
+      next: (doctors) => (this.doctors = doctors),
+      error: () => (this.doctors = [])
     });
   }
  
-  loadAppointments(clinicId: number): void {
-    this.mediConnectService.getAppointmentsByClinic(clinicId).subscribe({
-      next: (appointments) => {
-        this.selectClinicAppointments = appointments;
+  navigateToEditPatient(): void {
+    this.router.navigate([`/mediconnect/patient/edit/${this.patientId}`]);
+  }
+ 
+  deletePatient(): void {
+    this.mediConnectService.deletePatient(this.patientId).subscribe({
+      next: () => {
+        alert('Patient deleted successfully!');
+        this.router.navigate(['/auth']);
       },
       error: () => {
-        this.selectClinicAppointments = [];
+        alert('Error deleting patient.');
       }
     });
   }
 }
- 

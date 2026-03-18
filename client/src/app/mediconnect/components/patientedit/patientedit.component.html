@@ -1,0 +1,68 @@
+<div class="edit-container">
+<h2>Update Patient</h2>
+ 
+  <form [formGroup]="patientForm" (ngSubmit)="onSubmit()">
+ 
+    <div class="mb-3">
+<label>Full Name</label>
+<input class="form-control" formControlName="fullName" />
+</div>
+ 
+    <div class="mb-3">
+<label>Username</label>
+<input class="form-control" formControlName="username" />
+</div>
+ 
+    <div class="mb-3">
+<label>Password</label>
+<input type="password" class="form-control" formControlName="password" />
+</div>
+ 
+    <div class="mb-3">
+<label>Date of Birth</label>
+<input type="date" class="form-control" formControlName="dateOfBirth" />
+</div>
+ 
+    <div class="mb-3">
+<label>Contact Number</label>
+<input class="form-control" formControlName="contactNumber" />
+</div>
+ 
+    <div class="mb-3">
+<label>Email</label>
+<input class="form-control" formControlName="email" />
+</div>
+ 
+    <div class="mb-3">
+<label>Address</label>
+<textarea class="form-control" formControlName="address"></textarea>
+</div>
+ 
+    <button type="submit" class="btn btn-primary" [disabled]="patientForm.invalid">
+      Update
+</button>
+ 
+    <a routerLink="/mediconnect/dashboard" class="btn btn-secondary ms-2">Back to Dashboard</a>
+ 
+    <div class="text-success mt-3" *ngIf="successMessage">
+      {{ successMessage }}
+</div>
+ 
+    <div class="text-danger mt-3" *ngIf="errorMessage">
+      {{ errorMessage }}
+</div>
+ 
+  </form>
+</div>
+ 
+ 
+navbar.component.html
+ 
+<a
+  *ngIf="role !== 'DOCTOR'"
+  routerLink="/mediconnect/appointment/create"
+  class="nav-link"
+>
+  Book Appointment
+</a>
+ 

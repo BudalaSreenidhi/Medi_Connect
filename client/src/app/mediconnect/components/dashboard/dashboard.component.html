@@ -1,0 +1,42 @@
+<div class="dashboard-container">
+ 
+  <h2>Patient Dashboard</h2>
+ 
+  <div *ngIf="patientDetails">
+<h3>Your Profile</h3>
+<p><strong>Name:</strong> {{ patientDetails.fullName }}</p>
+<p><strong>Email:</strong> {{ patientDetails.email }}</p>
+<p><strong>Contact:</strong> {{ patientDetails.contactNumber }}</p>
+ 
+    <button (click)="navigateToEditPatient()" class="btn btn-primary">Edit Profile</button>
+<button (click)="deletePatient()" class="btn btn-danger ms-2">Delete Profile</button>
+</div>
+ 
+  <hr />
+ 
+  <h3>Your Appointments</h3>
+<ul>
+<li *ngFor="let app of appointments">
+      {{ app.appointmentDate }} - {{ app.purpose }} ({{ app.status }})
+</li>
+</ul>
+ 
+  <hr />
+ 
+  <h3>Available Clinics</h3>
+<ul>
+<li *ngFor="let c of clinics">
+      {{ c.clinicName }} - {{ c.location }}
+</li>
+</ul>
+ 
+  <hr />
+ 
+  <h3>Doctors</h3>
+<ul>
+<li *ngFor="let d of doctors">
+      {{ d.fullName }} ({{ d.specialty }})
+</li>
+</ul>
+ 
+</div>
