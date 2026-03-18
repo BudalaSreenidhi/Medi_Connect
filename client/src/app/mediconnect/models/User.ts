@@ -1,30 +1,26 @@
-import { Doctor } from './Doctor';
-import { Clinic } from './Clinic';
 export class User {
   userId: number;
   username: string;
   password: string;
   role: string;
-  doctor?: Doctor;
-  clinic?: Clinic;
-
+  patient?: any;
+  doctor?: any;
+ 
   constructor(
     userId: number,
     username: string,
     password: string,
     role: string,
-    doctor?: Doctor,
-    clinic?: Clinic
+    patient?: any,
+    doctor?: any
   ) {
     this.userId = userId;
     this.username = username;
     this.password = password;
     this.role = role;
+    this.patient = patient;
     this.doctor = doctor;
-    this.clinic = clinic;
   }
-
-  logAttributes(): void {
-    console.log(this);
-  }
+ 
+  logAttributes?(): void {}
 }

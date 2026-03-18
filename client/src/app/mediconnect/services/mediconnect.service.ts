@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
  
 import { environment } from 'src/environments/environment';
+ 
 import { Patient } from '../models/Patient';
 import { PatientDTO } from '../models/PatientDTO';
 import { Doctor } from '../models/Doctor';
@@ -58,9 +59,21 @@ export class MediConnectService {
     return this.http.post<any>(`${this.baseUrl}/doctor`, doctor);
   }
  
+  updateDoctor(doctor: Doctor): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/doctor/${doctor.doctorId}`, doctor);
+  }
+ 
+  deleteDoctor(doctorId: number): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/doctor/${doctorId}`);
+  }
+ 
   // ---------------- CLINIC API -------------------
   getAllClinics(): Observable<Clinic[]> {
     return this.http.get<Clinic[]>(`${this.baseUrl}/clinic`);
+  }
+ 
+  getClinicById(clinicId: number): Observable<Clinic> {
+    return this.http.get<Clinic>(`${this.baseUrl}/clinic/${clinicId}`);
   }
  
   getClinicsByDoctorId(doctorId: number): Observable<Clinic[]> {

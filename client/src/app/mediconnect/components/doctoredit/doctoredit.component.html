@@ -1,0 +1,44 @@
+<div class="edit-container">
+<h2>Edit Doctor</h2>
+ 
+  <form [formGroup]="doctorForm" (ngSubmit)="onSubmit()">
+ 
+    <div class="mb-3">
+<label>Full Name</label>
+<input class="form-control" formControlName="fullName" />
+</div>
+ 
+    <div class="mb-3">
+<label>Specialty</label>
+<input class="form-control" formControlName="specialty" />
+</div>
+ 
+    <div class="mb-3">
+<label>Contact Number</label>
+<input class="form-control" formControlName="contactNumber" />
+</div>
+ 
+    <div class="mb-3">
+<label>Email</label>
+<input class="form-control" formControlName="email" />
+</div>
+ 
+    <div class="mb-3">
+<label>Years of Experience</label>
+<input class="form-control" formControlName="yearsOfExperience" />
+</div>
+ 
+    <button class="btn btn-primary" [disabled]="doctorForm.invalid">
+      Update Doctor
+</button>
+ 
+    <a routerLink="/mediconnect/dashboard" class="btn btn-secondary ms-2">
+      Back
+</a>
+ 
+    <div class="text-success mt-2" *ngIf="successMessage">{{ successMessage }}</div>
+<div class="text-danger mt-2" *ngIf="errorMessage">{{ errorMessage }}</div>
+ 
+  </form>
+</div>
+ 
