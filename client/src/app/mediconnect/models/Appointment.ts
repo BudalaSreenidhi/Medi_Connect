@@ -1,63 +1,26 @@
- export class Appointment {
-
+export class Appointment {
   appointmentId: number;
-
-  patientId: number;
-
-  clinicId: number;
-
+  patient: any;
+  clinic: any;
   appointmentDate: Date;
-
   status: string;
-
   purpose: string;
  
   constructor(
-
     appointmentId: number,
-
-    patientId: number,
-
-    clinicId: number,
-
+    patient: any,
+    clinic: any,
     appointmentDate: Date,
-
     status: string,
-
     purpose: string
-
   ) {
-
     this.appointmentId = appointmentId;
-
-    this.patientId = patientId;
-
-    this.clinicId = clinicId;
-
+    this.patient = patient;
+    this.clinic = clinic;
     this.appointmentDate = appointmentDate;
-
     this.status = status;
-
     this.purpose = purpose;
-
   }
  
-  logAttributes(): void {
-
-    console.log('appointmentId:', this.appointmentId);
-
-    console.log('patientId:', this.patientId);
-
-    console.log('clinicId:', this.clinicId);
-
-    console.log('appointmentDate:', this.appointmentDate); // pass Date object
-
-    console.log('status:', this.status);
-
-    console.log('purpose:', this.purpose);
-
-  }
-
-}                   
-
- 
+  logAttributes?(): void {}
+}

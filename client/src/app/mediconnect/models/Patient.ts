@@ -1,4 +1,4 @@
- export class Patient {
+export class Patient {
   patientId: number;
   fullName: string;
   dateOfBirth: Date;
@@ -22,12 +22,5 @@
     this.address = address;
   }
  
-  logAttributes(): void {
-    console.log('patientId:', this.patientId);
-    console.log('fullName:', this.fullName);
-    console.log('dateOfBirth:', this.dateOfBirth); // pass Date object
-    console.log('contactNumber:', this.contactNumber);
-    console.log('email:', this.email);
-    console.log('address:', this.address);
-  }
+  logAttributes?(): void {}
 }
