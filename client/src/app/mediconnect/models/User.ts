@@ -1,33 +1,30 @@
+import { Doctor } from './Doctor';
+import { Clinic } from './Clinic';
 export class User {
   userId: number;
   username: string;
   password: string;
   role: string;
-  patientId?: number;
-  doctorId?: number;
- 
+  doctor?: Doctor;
+  clinic?: Clinic;
+
   constructor(
     userId: number,
     username: string,
     password: string,
     role: string,
-    patientId?: number,
-    doctorId?: number
+    doctor?: Doctor,
+    clinic?: Clinic
   ) {
     this.userId = userId;
     this.username = username;
     this.password = password;
     this.role = role;
-    this.patientId = patientId;
-    this.doctorId = doctorId;
+    this.doctor = doctor;
+    this.clinic = clinic;
   }
- 
+
   logAttributes(): void {
-    console.log('userId:', this.userId);
-    console.log('username:', this.username);
-    console.log('password:', this.password);
-    console.log('role:', this.role);
-    console.log('patientId:', this.patientId);
-    console.log('doctorId:', this.doctorId);
+    console.log(this);
   }
 }

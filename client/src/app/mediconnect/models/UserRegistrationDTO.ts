@@ -9,7 +9,7 @@ export class UserRegistrationDTO {
   yearsOfExperience?: number;
   dateOfBirth?: Date;
   address?: string;
- 
+
   constructor(
     username: string,
     password: string,
@@ -32,18 +32,5 @@ export class UserRegistrationDTO {
     this.yearsOfExperience = yearsOfExperience;
     this.dateOfBirth = dateOfBirth;
     this.address = address;
-  }
- 
-  logAttributes(): void {
-    console.log('username:', this.username);
-    console.log('password:', this.password);
-    console.log('role:', this.role);
-    console.log('fullName:', this.fullName);
-    console.log('contactNumber:', this.contactNumber);
-    console.log('email:', this.email);
-    console.log('specialty:', this.specialty);
-    console.log('yearsOfExperience:', this.yearsOfExperience);
-    console.log('dateOfBirth:', this.dateOfBirth);
-    console.log('address:', this.address);
   }
 }

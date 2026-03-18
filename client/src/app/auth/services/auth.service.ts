@@ -1,29 +1,39 @@
-import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { map, Observable } from "rxjs";
-import { User } from "../../mediconnect/models/User";
 
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { UserRegistrationDTO } from '../../mediconnect/models/UserRegistrationDTO';
+
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  login(user: Partial<User>): Observable<{ [key: string]: string }> {
-    return new Observable();
+  login(data: any): Observable<any> {
+    return this.http.post(
+      'http://localhost:9876/context.html/user/login',
+      data
+    );
   }
 
-  getToken() : string {
-    return '';
+  createUser(user: UserRegistrationDTO): Observable<any> {
+    return this.http.post(
+      'http://localhost:9876/context.html/user/register',
+      user
+    );
   }
 
-  getRole() : string {
-    return '';
+  getToken(): string | null {
+    return localStorage.getItem('token');
   }
 
-  getUsers(): Observable<User[]> {
-    return new Observable();
+  getRole(): string | null {
+    return localStorage.getItem('role');
   }
 
-  createUser(user: User): Observable<User> {
-    return new Observable();
+  logout(): void {
+    localStorage.clear();
   }
 }
